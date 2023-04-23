@@ -5,25 +5,33 @@ import * as apiGateway from "aws-cdk-lib/aws-apigateway";
 import * as dotenv from "dotenv";
 import * as AWS from "aws-sdk";
 
-
+dotenv.config();
 
 export class InfrastructureStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     const layer = new lambda.LayerVersion(this, "BaseLayer", {
-      code: lambda.Code.fromAsset("lambda_base_layer"),
+      code: lambda.Code.fromAsset("lambda_base_layer/layer.zip"),
       compatibleRuntimes: [lambda.Runtime.PYTHON_3_9],
     });
 
     const apiLambda = new lambda.Function(this, "ApiFunction", {
       runtime: lambda.Runtime.PYTHON_3_9,
-      code: lambda.Code.fromAsset("../backend"),
+      code: lambda.Code.fromAsset("../backend/"),
       handler: "hashtaggen_api.handler",
       layers: [layer],
       environment: {
         OPEN_AI_API_KEY: process.env.OPEN_AI_API_KEY ?? "",
       },
+    });
+
+    const hashtaggenApi = new apiGateway.RestApi(this, "RestApi", {
+      restApiName: "API hashtag",
+    });
+
+    hashtaggenApi.root.addProxy({
+      defaultIntegration: new apiGateway.LambdaIntegration(apiLambda),
     });
   }
 }
