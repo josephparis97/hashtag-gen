@@ -22,7 +22,7 @@ export class InfrastructureStack extends cdk.Stack {
       handler: "hashtaggen_api.handler",
       layers: [layer],
       environment: {
-        OPEN_AI_API_KEY: process.env.OPEN_AI_API_KEY ?? "",
+        OPEN_AI_API_KEY: process.env.OPENAI_API_KEY ?? "",
       },
     });
 
