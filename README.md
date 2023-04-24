@@ -16,6 +16,7 @@ I followed the tuto from pixegami on YouTube [Build an AI-driven SaaS Applicatio
 ## Possible Improvements
 
 - [ ] Add unit and integration tests
+- [ ] Add authentification
 - [ ] Generate hashtags based on image input
 - [ ] Improve user interface and experience
 
