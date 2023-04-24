@@ -22,12 +22,15 @@ export class InfrastructureStack extends cdk.Stack {
       handler: "hashtaggen_api.handler",
       layers: [layer],
       environment: {
-        OPEN_AI_API_KEY: process.env.OPENAI_API_KEY ?? "",
+        OPENAI_API_KEY: process.env.OPENAI_API_KEY ?? "",
       },
+      timeout: cdk.Duration.seconds(10),
     });
 
     const hashtaggenApi = new apiGateway.RestApi(this, "RestApi", {
       restApiName: "API hashtag",
+      //set timeout to 10 seconds
+
     });
 
     hashtaggenApi.root.addProxy({
