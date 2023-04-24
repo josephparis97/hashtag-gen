@@ -29,8 +29,6 @@ export class InfrastructureStack extends cdk.Stack {
 
     const hashtaggenApi = new apiGateway.RestApi(this, "RestApi", {
       restApiName: "API hashtag",
-      //set timeout to 10 seconds
-
     });
 
     hashtaggenApi.root.addProxy({
